@@ -8,11 +8,7 @@ const RoomItem = ({ room }) => {
       <div className="card p-2">
         <Image
           className="card-img-top mx-auto"
-          src={
-            room.images[0].url
-              ? room.images[0].url
-              : "https://a0.muscache.com/im/pictures/a8f6a489-d236-4d2d-a57b-a95d928970af.jpg?im_w=960"
-          }
+          src={room.images[0].url ? room.images[0].url : "room1.jpg"}
           height={170}
           width={200}
         />
