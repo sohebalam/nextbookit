@@ -6,12 +6,16 @@ const RoomItem = ({ room }) => {
   return (
     <div className="col-sm-12 col-md-6 col-lg-3 my-3">
       <div className="card p-2">
-        {/* <Image
+        <Image
           className="card-img-top mx-auto"
-          src={room.images[0].url}
+          src={
+            room.images[0].url
+              ? room.images[0].url
+              : "https://a0.muscache.com/im/pictures/a8f6a489-d236-4d2d-a57b-a95d928970af.jpg?im_w=960"
+          }
           height={170}
-          width=""
-        /> */}
+          width={200}
+        />
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">
             <Link href={`/room/${room._id}`}>

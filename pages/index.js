@@ -40,7 +40,7 @@ const Home = () => {
           ) : (
             rooms &&
             rooms.map((room) => (
-              <Grid item sm={3}>
+              <Grid item sm={3} key={room._id}>
                 <Card style={{ height: "100%", padding: "0.75rem" }}>
                   <RoomItem key={room._id} room={room} />
                 </Card>
