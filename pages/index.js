@@ -27,77 +27,39 @@ const Home = () => {
           {" "}
           <i className="fa fa-arrow-left"></i> Back to Search
         </a>
-        <Grid container style={{ marginTop: "1rem" }}>
-          <Grid item sm={3}>
-            <Card style={{ height: "100%", padding: "0.75rem" }}>
-              {rooms && rooms.length === 0 ? (
-                <div className="alert alert-danger mt-5 w-100">
-                  <b>No Rooms.</b>
-                </div>
-              ) : (
-                rooms &&
-                rooms.map((room) => <RoomItem key={room._id} room={room} />)
-              )}
-            </Card>
-          </Grid>
-          {/* <Grid item sm={3}>
-            <Card style={{ padding: "1rem" }}>
-              <Image
-                src="https://a0.muscache.com/im/pictures/2121b1e3-1d2b-4824-9268-eba1e593bc28.jpg?im_w=720"
-                width={250}
-                height={150}
-              />
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title">
-                  <a href="">Picturesque 2-Story Farmhouse w/Private Hot Tub</a>
-                </h5>
+        <Grid
+          container
+          style={{ marginTop: "1rem" }}
+          alignItems="flex-end"
+          direction="row"
+        >
+          {rooms && rooms.length === 0 ? (
+            <div className="alert alert-danger mt-5 w-100">
+              <b>No Rooms.</b>
+            </div>
+          ) : (
+            rooms &&
+            rooms.map((room) => (
+              <Grid item sm={3}>
+                <Card style={{ height: "100%", padding: "0.75rem" }}>
+                  <RoomItem key={room._id} room={room} />
+                </Card>
+              </Grid>
+            ))
+          )}
 
-                <div className="ratings mt-auto mb-3">
-                  <p className="card-text">
-                    <b>$12</b> / night
-                  </p>
-
-                  <div className="rating-outer">
-                    <div className="rating-inner"></div>
-                  </div>
-                  <span id="no_of_reviews">(5 Reviews)</span>
-                </div>
-
-                <Button className="btn btn-block view-btn">
-                  <a href="#">View Details</a>
-                </Button>
-              </div>
-            </Card>
-          </Grid> */}
-          {/* <Grid item sm={3}>
-            <Card style={{ padding: "1rem" }}>
-              <Image
-                src="https://a0.muscache.com/im/pictures/4599de32-549f-4125-8c93-ef99ce5b4cb0.jpg?im_w=720"
-                width={250}
-                height={150}
-              />
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title">
-                  <a href="">Downtown Portsmouth Private Getaway! Hot Tub</a>
-                </h5>
-
-                <div className="ratings mt-auto mb-3">
-                  <p className="card-text">
-                    <b>$12</b> / night
-                  </p>
-
-                  <div className="rating-outer">
-                    <div className="rating-inner"></div>
-                  </div>
-                  <span id="no_of_reviews">(5 Reviews)</span>
-                </div>
-
-                <Button className="btn btn-block view-btn">
-                  <a href="#">View Details</a>
-                </Button>
-              </div>
-            </Card>
-          </Grid> */}
+          {/* {rooms && rooms.length === 0 ? (
+            <div className="alert alert-danger mt-5 w-100">
+              <b>No Rooms.</b>
+            </div>
+          ) : (
+          {}  rooms && rooms.map((room) =>(
+              <Grid item sm={3}>
+                <Card style={{ height: "100%", padding: "0.75rem" }}>
+                  <RoomItem key={room._id} room={room} />
+                </Card>
+              </Grid>
+          )} */}
         </Grid>
       </Container>
     </div>
