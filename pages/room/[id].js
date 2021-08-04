@@ -15,6 +15,7 @@ import { clearErrors } from "../../redux/actions/roomActions"
 
 import { Carousel } from "react-bootstrap"
 import RoomFeatures from "../../components/room/RoomFeatures"
+import { Box } from "@material-ui/core"
 
 const RoomDetails = () => {
   const dispatch = useDispatch()
@@ -38,7 +39,13 @@ const RoomDetails = () => {
           <title>{room.name} - bookit</title>
         </Head>
         <Grid container>
-          <h2>{room.name} </h2>
+          <Box component="span" m={1}>
+            <h2>{room.name} </h2>
+          </Box>
+          <br />
+          <Box component="span" m={1}>
+            <h6>{room.address}</h6>
+          </Box>
           <Grid container>
             <Image
               src={room.images[0].url}
@@ -48,14 +55,12 @@ const RoomDetails = () => {
               width={2500}
             />
           </Grid>
-
           <Grid item style={{ marginTop: "1rem" }}>
             <Typography id="no_of_reviews">
               Number of Reviews{"    "}
               {room.numOfReviews ? room.numOfReviews : "   No reviews yet"}
             </Typography>
           </Grid>
-
           {/* <Grid item style={{ marginTop: "1rem" }}>
             <Carousel hover="pause">
               {room.images &&
@@ -73,7 +78,6 @@ const RoomDetails = () => {
                 ))}
             </Carousel>
           </Grid> */}
-
           <div>
             <div>
               <h3>Description</h3>
@@ -120,7 +124,6 @@ const RoomDetails = () => {
               </div>
             </div>
           </div>
-
           {/* <div className="reviews w-75">
             <h3>Reviews:</h3>
             <hr />

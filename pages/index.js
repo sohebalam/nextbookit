@@ -3,30 +3,62 @@ import { Container } from "@material-ui/core"
 import Image from "next/image"
 import { useSelector, useDispatch } from "react-redux"
 import RoomItem from "../components/room/RoomItem"
-
-import { getRooms } from "../redux/actions/roomActions"
-
+import Pagination from "react-js-pagination"
+import { clearErrors, getRooms } from "../redux/actions/roomActions"
+import { useRouter } from "next/router"
 import { wrapper } from "../redux/store"
+import { useEffect } from "react"
+import { toast } from "react-toastify"
+import Link from "next/link"
 
 const Home = () => {
   const allRooms = useSelector((state) => state.allRooms)
-  const { loading, error, rooms } = allRooms
+  const { rooms, resPerPage, roomsCount, filteredRoomsCount, error } = allRooms
 
-  // const router = useRouter()
+  const router = useRouter()
+  let { location, page = 1 } = router.query
+  page = Number(page)
 
   const dispatch = useDispatch()
 
-  // console.log(rooms)
+  useEffect(() => {
+    toast.error(error)
+    dispatch(clearErrors())
+  }, [])
+
+  const handlePagination = (pageNumber) => {
+    if (location) {
+      let url = window.location.search
+
+      url.includes("&page")
+        ? (url = url.replace(/(page=)[^\&]+/, "$1" + pageNumber))
+        : (url = url.concat(`&page=${pageNumber}`))
+
+      router.push(url)
+    } else {
+      router.push(`/?page=${pageNumber}`)
+      // window.location.href = `/?page=${pageNumber}`
+    }
+  }
+
+  let count = roomsCount
+  if (location) {
+    count = filteredRoomsCount
+  }
 
   return (
     <div>
       <Container>
-        <h2 className="mb-3 ml-2 stays-heading">Stays in New York</h2>
+        <h2 className="mb-3 ml-2 stays-heading">
+          {location ? `Rooms in ${location}` : "All Rooms"}
+        </h2>
 
-        <a href="#" className="ml-2 back-to-search">
-          {" "}
-          <i className="fa fa-arrow-left"></i> Back to Search
-        </a>
+        <Link href="/search">
+          <a className="ml-2 back-to-search">
+            {" "}
+            <i className="fa fa-arrow-left"></i>Back to Search
+          </a>
+        </Link>
         <Grid
           container
           style={{ marginTop: "1rem" }}
@@ -49,6 +81,26 @@ const Home = () => {
           )}
         </Grid>
       </Container>
+      {resPerPage < count && (
+        <div id="menu" className="center">
+          <ul>
+            <li>
+              <Pagination
+                activePage={page}
+                itemsCountPerPage={resPerPage}
+                totalItemsCount={roomsCount}
+                onChange={handlePagination}
+                nextPageText={"Next"}
+                prevPageText={"Prev"}
+                firstPageText={"First"}
+                lastPageText={"Last"}
+                itemClass="page-item"
+                linkClass="page-link"
+              />
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,16 +1,52 @@
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
 }
 
-a {
-  color: inherit;
+/* Pagination */
+.page-item.active .page-link {
+  list-style-type: none;
+  list-style: none;
+  display: inline;
+}
+
+.page-link {
+  list-style-type: none;
+  list-style: none;
+  display: inline;
+}
+
+.page-link:hover {
+  list-style-type: none;
+  list-style: none;
+  display: inline;
+}
+
+#menu ul {
+  list-style-type: none;
+  padding: 5px;
+  display: inline;
+}
+
+ul li {
+  display: inline;
+  font: bold 13px Arial;
   text-decoration: none;
+  background-color: #ffffff;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #cccccc;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #cccccc;
 }
 
-* {
-  box-sizing: border-box;
+.center {
+  margin: auto;
+  width: 20%;
+  padding-top: 10px;
 }
