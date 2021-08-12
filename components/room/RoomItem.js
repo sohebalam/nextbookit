@@ -8,10 +8,11 @@ const RoomItem = ({ room }) => {
       <div className="card p-2">
         <Image
           className="card-img-top mx-auto"
-          src={room.images[0].url ? room.images[0].url : "room1.jpg"}
+          src={room.images[0]?.url ? room.images[0].url : "room1.jpg"}
           height={170}
           width={250}
         />
+
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">
             <Link href={`/room/${room._id}`}>

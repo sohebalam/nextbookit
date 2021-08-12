@@ -33,11 +33,11 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider theme={theme}>
         <Container>
           <CssBaseline />
-          {/* <Provider session={pageProps.session}> */}
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-          {/* </Provider> */}
+          <Provider session={pageProps.session}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </Provider>
         </Container>
       </ThemeProvider>
     </>
