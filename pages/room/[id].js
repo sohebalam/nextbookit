@@ -10,20 +10,30 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { toast } from "react-toastify"
 import axios from "axios"
-import { Container, Grid, Typography } from "@material-ui/core"
+import { Button, Container, Grid, Typography } from "@material-ui/core"
 import { clearErrors } from "../../redux/actions/roomActions"
 
 import { Carousel } from "react-bootstrap"
 import RoomFeatures from "../../components/room/RoomFeatures"
 import { Box } from "@material-ui/core"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import { useRouter } from "next/dist/client/router"
 
 const RoomDetails = () => {
+  const [checkInDate, setCheckInDate] = useState()
+  const [checkOutDate, setCheckOutDate] = useState()
+  const [daysOfStay, setDaysOfStay] = useState()
+  const [paymentLoading, setPaymentLoading] = useState(false)
+
   const dispatch = useDispatch()
+  const router = useRouter()
 
   const roomDetails = useSelector((state) => state.roomDetails)
   const { error, room } = roomDetails
 
   // console.log(room)
+  const { id } = router.query
 
   useEffect(() => {
     if (error) {
@@ -31,6 +41,60 @@ const RoomDetails = () => {
       dispatch(clearErrors)
     }
   }, [])
+
+  const onChange = (dates) => {
+    const [checkInDate, checkOutDate] = dates
+
+    setCheckInDate(checkInDate)
+    setCheckOutDate(checkOutDate)
+
+    if (checkInDate && checkOutDate) {
+      // Calclate days of stay
+
+      //   console.log(checkInDate.toISOString(), checkOutDate.toISOString());
+
+      const days = Math.floor(
+        (new Date(checkOutDate) - new Date(checkInDate)) / 86400000 + 1
+      )
+
+      setDaysOfStay(days)
+
+      // dispatch()
+      // checkBooking(id, checkInDate.toISOString(), checkOutDate.toISOString())
+      console.log(checkInDate.toISOString(), checkOutDate.toISOString())
+    }
+  }
+
+  const newBookingHandler = async () => {
+    const bookingData = {
+      room: id,
+      checkInDate,
+      checkOutDate,
+      daysOfStay,
+      amountPaid: 90,
+      paymentInfo: {
+        id: "STRIPE_PAYMENT_ID",
+        status: "STRIPE_PAYMENT_STATUS",
+      },
+    }
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+      const { data } = await axios.post(
+        `/api/bookings/bookings`,
+        bookingData,
+        config
+      )
+
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -78,52 +142,46 @@ const RoomDetails = () => {
                 ))}
             </Carousel>
           </Grid> */}
+
           <div>
-            <div>
-              <h3>Description</h3>
-              <p>{room.description}</p>
-
-              <RoomFeatures room={room} />
-              {/* <div>
-                <h3 className="mb-4">Features:</h3>
-                <div className="room-feature">
-                  <i
-                    className="fa fa-cog fa-fw fa-users"
-                    aria-hidden="true"
-                  ></i>
-                  <p>{room.guestCapacity}</p>
-                </div>
-
-                <div className="room-feature">
-                  <i className="fa fa-cog fa-fw fa-bed" aria-hidden="true"></i>
-                  <p>{room.numOfBeds}</p>
-                </div>
-
-                <div className="room-feature">
-                  <i className="fa fa-cog fa-fw fa-bath" aria-hidden="true"></i>
-                  <p>2 Baths</p>
-                </div>
-
-                <div className="room-feature">
-                  <i
-                    className="fa fa-cog fa-fw fa-cutlery"
-                    aria-hidden="true"
-                  ></i>
-                  <p>Kitchen</p>
-                </div>
-              </div> */}
-            </div>
-
-            <div className="col-12 col-md-6 col-lg-4">
-              <div className="booking-card shadow-lg p-4">
-                <p className="price-per-night">
-                  <b>£{room.pricePerNight}</b> / night
-                </p>
-
-                <button className="btn btn-block py-3 booking-btn">Pay</button>
-              </div>
-            </div>
+            <h3>Description</h3>
+            <p>{room.description}</p>
           </div>
+          <Grid container>
+            <Grid item sm={8}>
+              <RoomFeatures room={room} />
+            </Grid>
+            <Grid item sm={4}>
+              <div className="booking-card shadow-lg p-4">
+                <Container maxWidth="xs">
+                  <p className="price-per-night">
+                    <b>£{room.pricePerNight}</b> / night
+                  </p>
+                  <DatePicker
+                    className="w-100"
+                    selected={checkInDate}
+                    onChange={onChange}
+                    startDate={checkInDate}
+                    endDate={checkOutDate}
+                    minDate={new Date()}
+                    // excludeDates={excludedDates}
+                    selectsRange
+                    inline
+                  />
+                  <Box style={{ marginRight: "4rem", marginTop: "0.5rem" }}>
+                    <Button
+                      variant="outlined"
+                      fullWidth
+                      onClick={newBookingHandler}
+                    >
+                      Pay
+                    </Button>
+                  </Box>
+                </Container>
+              </div>
+            </Grid>
+          </Grid>
+
           {/* <div className="reviews w-75">
             <h3>Reviews:</h3>
             <hr />
