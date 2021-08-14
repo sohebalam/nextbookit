@@ -7,18 +7,23 @@ import { getRoomDetails } from "../../redux/actions/roomActions"
 import { wrapper } from "../../redux/store"
 
 import { useDispatch, useSelector } from "react-redux"
-
 import { toast } from "react-toastify"
 import axios from "axios"
 import { Button, Container, Grid, Typography } from "@material-ui/core"
 import { clearErrors } from "../../redux/actions/roomActions"
-
+import {
+  bookingCheck,
+  getBookedDates,
+} from "../../redux/actions/bookingActions"
+import { CHECK_BOOKING_RESET } from "../../redux/constants/bookingTypes"
 import { Carousel } from "react-bootstrap"
 import RoomFeatures from "../../components/room/RoomFeatures"
 import { Box } from "@material-ui/core"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { useRouter } from "next/dist/client/router"
+import { Alert } from "@material-ui/lab"
+import PersonIcon from "@material-ui/icons/Person"
 
 const RoomDetails = () => {
   const [checkInDate, setCheckInDate] = useState()
@@ -32,15 +37,34 @@ const RoomDetails = () => {
   const roomDetails = useSelector((state) => state.roomDetails)
   const { error, room } = roomDetails
 
+  const checkBooking = useSelector((state) => state.checkBooking)
+  const { loading: bookingLoading, available } = checkBooking
+
+  const profile = useSelector((state) => state.profile)
+
+  const { dbUser } = profile
+
+  const bookedDates = useSelector((state) => state.bookedDates)
+  const { dates } = bookedDates
+
+  const excludedDates = []
+
+  dates.map((date) => {
+    excludedDates.push(new Date(date))
+  })
+
+  console.log(available, dbUser)
   // console.log(room)
   const { id } = router.query
 
   useEffect(() => {
-    if (error) {
-      toast.error(error)
-      dispatch(clearErrors)
+    dispatch(getBookedDates(id))
+    toast.error(error)
+    dispatch(clearErrors())
+    return () => {
+      dispatch({ type: CHECK_BOOKING_RESET })
     }
-  }, [])
+  }, [dispatch, id])
 
   const onChange = (dates) => {
     const [checkInDate, checkOutDate] = dates
@@ -59,9 +83,10 @@ const RoomDetails = () => {
 
       setDaysOfStay(days)
 
-      // dispatch()
-      // checkBooking(id, checkInDate.toISOString(), checkOutDate.toISOString())
-      console.log(checkInDate.toISOString(), checkOutDate.toISOString())
+      dispatch(
+        bookingCheck(id, checkInDate.toISOString(), checkOutDate.toISOString())
+      )
+      // console.log(checkInDate.toISOString(), checkOutDate.toISOString())
     }
   }
 
@@ -125,23 +150,6 @@ const RoomDetails = () => {
               {room.numOfReviews ? room.numOfReviews : "   No reviews yet"}
             </Typography>
           </Grid>
-          {/* <Grid item style={{ marginTop: "1rem" }}>
-            <Carousel hover="pause">
-              {room.images &&
-                room.images.map((image) => (
-                  <Carousel.Item key={image.public_id}>
-                    <div style={{ width: "100%", height: "440px" }}>
-                      <Image
-                        className="d-block m-auto"
-                        src={image.url}
-                        alt={room.name}
-                        layout="fill"
-                      />
-                    </div>
-                  </Carousel.Item>
-                ))}
-            </Carousel>
-          </Grid> */}
 
           <div>
             <h3>Description</h3>
@@ -164,47 +172,42 @@ const RoomDetails = () => {
                     startDate={checkInDate}
                     endDate={checkOutDate}
                     minDate={new Date()}
-                    // excludeDates={excludedDates}
+                    excludeDates={excludedDates}
                     selectsRange
                     inline
                   />
                   <Box style={{ marginRight: "4rem", marginTop: "0.5rem" }}>
-                    <Button
-                      variant="outlined"
-                      fullWidth
-                      onClick={newBookingHandler}
-                    >
-                      Pay
-                    </Button>
+                    {available === true && (
+                      <Alert severity="info">
+                        Room is available. Book Now.
+                      </Alert>
+                    )}
+                    {available === false && (
+                      <Alert severity="warning">
+                        Room not available. Try different dates.
+                      </Alert>
+                    )}
+
+                    {available && !dbUser && (
+                      <Alert severity="warning">Login to book room.</Alert>
+                    )}
                   </Box>
+                  {available && dbUser && (
+                    <Box style={{ marginRight: "4rem", marginTop: "0.5rem" }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={newBookingHandler}
+                      >
+                        Pay
+                      </Button>
+                    </Box>
+                  )}
                 </Container>
               </div>
             </Grid>
           </Grid>
-
-          {/* <div className="reviews w-75">
-            <h3>Reviews:</h3>
-            <hr />
-            <div className="review-card my-3">
-              <div className="rating-outer">
-                <div className="rating-inner"></div>
-              </div>
-              <p className="review_user">by John</p>
-              <p className="review_comment">Good Quality</p>
-
-              <hr />
-            </div>
-
-            <div className="review-card my-3">
-              <div className="rating-outer">
-                <div className="rating-inner"></div>
-              </div>
-              <p className="review_user">by John</p>
-              <p className="review_comment">Good Quality</p>
-
-              <hr />
-            </div>
-          </div> */}
         </Grid>
       </Container>
     </>

@@ -15,6 +15,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
 import { loadUser } from "../../redux/actions/userActions"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
+import MenuButton from "../layout/MenuButton"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,12 +52,6 @@ function Header() {
     }
   }, [dbUser])
 
-  const handleSignout = (e) => {
-    e.preventDefault()
-    signOut({ callbackUrl: `${window.location.origin}` })
-    // router.push("/user/login")
-  }
-
   const classes = useStyles()
 
   return (
@@ -74,37 +69,11 @@ function Header() {
             <>
               {dbUser ? (
                 <>
-                  <div style={{ marginTop: "0.25rem" }}>
-                    <Link style={{ color: "white" }} href="/user/profile">
-                      <Button color="inherit" style={{ marginRight: "0.5rem" }}>
-                        Profile
-                      </Button>
-                    </Link>
-                  </div>
-                  <div
-                    style={{
-                      marginRight: "0.25rem",
-                      marginLeft: "0.75rem",
-                      marginTop: "0.75",
-                    }}
-                  >
-                    <Typography style={{ marginTop: "0.25rem" }}>
-                      {" "}
-                      Hello {dbUser.name}
-                      {/* {dbUser.lastName} */}
-                    </Typography>
-                  </div>
-                  {/* {dbUser?.isAdmin && <AdminMenu />} */}
-                  <div style={{ marginTop: "0.25rem" }}>
-                    <Button
-                      color="inherit"
-                      style={{ marginRight: "0.5rem" }}
-                      onClick={handleSignout}
-                    >
-                      <ExitToAppIcon style={{ marginRight: "0.25rem" }} />
-                      LogOut
-                    </Button>
-                  </div>
+                  {/* <MenuListButton />
+                  
+                  
+                  */}
+                  <MenuButton dbUser={dbUser} />
                 </>
               ) : (
                 <>

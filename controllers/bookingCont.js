@@ -89,6 +89,7 @@ export const checkBookedDates = catchAsyncErrors(async (req, res) => {
   let bookedDates = []
 
   const timeDifference = moment().utcOffset() / 60
+  // console.log(timeDifference)
 
   bookings.forEach((booking) => {
     const checkInDate = moment(booking.checkInDate).add(timeDifference, "hours")
