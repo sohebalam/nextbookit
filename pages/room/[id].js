@@ -24,7 +24,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import { useRouter } from "next/dist/client/router"
 import { Alert } from "@material-ui/lab"
 import PersonIcon from "@material-ui/icons/Person"
-
+import getStripe from "../../utils/getStripe"
 const RoomDetails = () => {
   const [checkInDate, setCheckInDate] = useState()
   const [checkOutDate, setCheckOutDate] = useState()
@@ -121,6 +121,24 @@ const RoomDetails = () => {
     }
   }
 
+  const bookedRoom = async (id, pricePerNight) => {
+    setPaymentLoading(true)
+    const amount = pricePerNight * daysOfStay
+    try {
+      const link = `/api/checkout/${id}?checkInDate=${checkInDate.toISOString()}&checkOutDate=${checkOutDate.toISOString()}&daysOfStay=${daysOfStay}`
+      const { data } = await axios.get(link, { params: { amount } })
+
+      const stripe = await getStripe()
+
+      stripe.redirectToCheckout({ sessionId: data.id })
+      setPaymentLoading(false)
+    } catch (error) {
+      setPaymentLoading(false)
+      console.log(error)
+      toast.error(error.message)
+    }
+  }
+
   return (
     <>
       <Container>
@@ -198,9 +216,12 @@ const RoomDetails = () => {
                         variant="contained"
                         color="primary"
                         fullWidth
-                        onClick={newBookingHandler}
+                        onClick={() => bookedRoom(room._id, room.pricePerNight)}
+                        disabled={
+                          bookingLoading || paymentLoading ? true : false
+                        }
                       >
-                        Pay
+                        Pay - £{daysOfStay * room.pricePerNight}
                       </Button>
                     </Box>
                   )}
