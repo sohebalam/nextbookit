@@ -72,7 +72,9 @@ export const getBookedDates = (id) => async (dispatch) => {
   }
 }
 
-export const myBookings = (authCookie, req) => async (dispatch) => {
+export const getMyBookings = (authCookie, req) => async (dispatch) => {
+  // console.log(req.method)
+
   try {
     const { origin } = absoluteUrl(req)
     const config = {

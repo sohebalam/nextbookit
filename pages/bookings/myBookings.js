@@ -4,7 +4,7 @@ import Link from "next/link"
 import { getSession } from "next-auth/client"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
-import { clearErrors } from "../../redux/actions/bookingActions"
+import { clearErrors, getMyBookings } from "../../redux/actions/bookingActions"
 import { MDBDataTable } from "mdbreact"
 import easyinvoice from "easyinvoice"
 import { wrapper } from "../../redux/store"
@@ -160,7 +160,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         }
       }
 
-      await store.dispatch(myBookings(req.headers.cookie, req))
+      await store.dispatch(getMyBookings(req.headers.cookie, req))
     }
 )
 

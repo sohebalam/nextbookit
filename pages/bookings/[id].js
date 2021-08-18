@@ -33,7 +33,9 @@ const BookingDetails = () => {
   }, [dispatch])
 
   const isPaid =
-    booking.paymentInfo && booking.paymentInfo.status === "paid" ? true : false
+    booking?.paymentInfo && booking?.paymentInfo.status === "paid"
+      ? true
+      : false
 
   return (
     <>

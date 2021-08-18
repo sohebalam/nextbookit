@@ -2,7 +2,7 @@ import Booking from "../models/bookingModel"
 import Room from "../models/roomModel"
 import ErrorHandler from "../utils/errorHandler"
 import catchAsyncErrors from "../middlewares/catchAsyncErrors"
-
+import User from "../models/userModel"
 import Moment from "moment"
 
 import { extendMoment } from "moment-range"
@@ -107,17 +107,36 @@ export const checkBookedDates = catchAsyncErrors(async (req, res) => {
 })
 
 export const myBookings = catchAsyncErrors(async (req, res) => {
-  const bookings = await Booking.find({ user: req.user._id })
-    .populate({
-      path: "room",
-      select: "name pricePerNight images",
-    })
-    .populate({
-      path: "user",
-      select: "name email",
-    })
+  // console.log(req.user.id, req.method)
 
-  res.status(200).json({ success: true, bookings })
+  if (req.user.id) {
+    const user = await User.findOne({ socialId: req.user.id })
+    const { _id } = user
+    // console.log(_id)
+    const bookings = await Booking.find({ user: _id })
+      .populate({
+        path: "room",
+        select: "name pricePerNight images",
+      })
+      .populate({
+        path: "user",
+        select: "name email",
+      })
+
+    res.status(200).json({ success: true, bookings })
+  } else {
+    const bookings = await Booking.find({ user: req.user._id })
+      .populate({
+        path: "room",
+        select: "name pricePerNight images",
+      })
+      .populate({
+        path: "user",
+        select: "name email",
+      })
+
+    res.status(200).json({ success: true, bookings })
+  }
 })
 
 export const getBookingDetails = catchAsyncErrors(async (req, res) => {

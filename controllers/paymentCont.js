@@ -68,15 +68,15 @@ export const webhookCheckout = catchAsyncErrors(async (req, res) => {
       const checkOutDate = session.metadata.checkOutDate
       const daysOfStay = session.metadata.daysOfStay
 
-      console.log(
-        room,
-        user,
-        checkInDate,
-        checkOutDate,
-        daysOfStay,
-        amountPaid,
-        paymentInfo
-      )
+      // console.log(
+      //   room,
+      //   user,
+      //   checkInDate,
+      //   checkOutDate,
+      //   daysOfStay,
+      //   amountPaid,
+      //   paymentInfo
+      // )
 
       const booking = await Booking.create({
         room,
