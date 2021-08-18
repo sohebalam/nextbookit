@@ -80,7 +80,10 @@ export const myBookings = (authCookie, req) => async (dispatch) => {
         cookie: authCookie,
       },
     }
-    const { data } = await axios.get(`${origin}/api/bookings/me`, config)
+    const { data } = await axios.get(
+      `${origin}/api/bookings/myBookings`,
+      config
+    )
 
     dispatch({
       type: MY_BOOKINGS_SUCCESS,

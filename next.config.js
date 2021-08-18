@@ -31,7 +31,6 @@ module.exports = (phase) => {
 
         TWITTER_ID: "Hwysrt1xXvOrriInVh6HV6iiF",
         TWITTER_SECRET: "QZd72lw0CCqc1S7Njltur1DPhJsjAxvHpk9iFNJ9d4L0wPKo5m",
-        STRIPE_WEBHOOK_SECRET: "whsec_bHeASlKGX6u1jRhXFLjEVrgBwIfJpFnC",
       },
 
       images: {

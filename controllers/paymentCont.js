@@ -42,8 +42,6 @@ export const stripeCheckout = catchAsyncErrors(async (req, res) => {
 export const webhookCheckout = catchAsyncErrors(async (req, res) => {
   const rawBody = await getRawBody(req)
 
-  // console.log(rawBody)
-
   try {
     const signature = req.headers["stripe-signature"]
 
@@ -69,6 +67,16 @@ export const webhookCheckout = catchAsyncErrors(async (req, res) => {
       const checkInDate = session.metadata.checkInDate
       const checkOutDate = session.metadata.checkOutDate
       const daysOfStay = session.metadata.daysOfStay
+
+      console.log(
+        room,
+        user,
+        checkInDate,
+        checkOutDate,
+        daysOfStay,
+        amountPaid,
+        paymentInfo
+      )
 
       const booking = await Booking.create({
         room,
