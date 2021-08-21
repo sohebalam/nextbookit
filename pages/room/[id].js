@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import Head from "next/head"
 import Image from "next/image"
-
+import NewReview from "../../components/review/NewReview"
 import { getRoomDetails } from "../../redux/actions/roomActions"
 
 import { wrapper } from "../../redux/store"
@@ -9,7 +9,7 @@ import { wrapper } from "../../redux/store"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import axios from "axios"
-import { Button, Container, Grid, Typography } from "@material-ui/core"
+import { Button, Container, Grid, List, Typography } from "@material-ui/core"
 import { clearErrors } from "../../redux/actions/roomActions"
 import {
   bookingCheck,
@@ -25,6 +25,7 @@ import { useRouter } from "next/dist/client/router"
 import { Alert } from "@material-ui/lab"
 import PersonIcon from "@material-ui/icons/Person"
 import getStripe from "../../utils/getStripe"
+import ListReviews from "../../components/review/ListReviews"
 const RoomDetails = () => {
   const [checkInDate, setCheckInDate] = useState()
   const [checkOutDate, setCheckOutDate] = useState()
@@ -53,7 +54,7 @@ const RoomDetails = () => {
     excludedDates.push(new Date(date))
   })
 
-  console.log(available, dbUser)
+  // console.log(available, dbUser)
   // console.log(room)
   const { id } = router.query
 
@@ -115,7 +116,7 @@ const RoomDetails = () => {
         config
       )
 
-      console.log(data)
+      // console.log(data)
     } catch (error) {
       console.log(error)
     }
@@ -226,9 +227,17 @@ const RoomDetails = () => {
                     </Box>
                   )}
                 </Container>
+                <NewReview />
               </div>
             </Grid>
           </Grid>
+          {room.reviews && room.reviews.length > 0 ? (
+            <ListReviews reviews={room.reviews} />
+          ) : (
+            <p>
+              <b>No Reviews on this room</b>
+            </p>
+          )}
         </Grid>
       </Container>
     </>
