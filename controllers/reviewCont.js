@@ -1,6 +1,7 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors"
 import Room from "../models/roomModel"
-
+import User from "../models/userModel"
+import Booking from "../models/bookingModel"
 export const createRoomReview = catchAsyncErrors(async (req, res) => {
   const { rating, comment, roomId } = req.body
 
@@ -87,6 +88,7 @@ export const checkReviewAuth = catchAsyncErrors(async (req, res) => {
 
   if (req.user.id) {
     const user = await User.findOne({ socialId: req.user.id })
+
     req.user._id = user._id
   }
 

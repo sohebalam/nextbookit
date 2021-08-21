@@ -81,12 +81,14 @@ const NewReview = () => {
   const checkReview = useSelector((state) => state.checkReview)
   const { reviewAvailable } = checkReview
 
+  // console.log(reviewAvailable)
+
   const { id } = router.query
   // console.log(id)
 
   useEffect(() => {
     if (id !== undefined) {
-      //   dispatch(checkReviewAvailability(id))
+      dispatch(checkReviewAvailability(id))
     }
 
     if (error) {
@@ -113,20 +115,20 @@ const NewReview = () => {
   const classes = useStyles()
   return (
     <>
-      {/* {reviewAvailable && ( */}
-      <Box style={{ marginRight: "3rem" }}>
-        <Button
-          type="button"
-          onClick={handleOpen}
-          variant="contained"
-          style={{ marginRight: "2rem" }}
-          fullWidth={true}
-          color="primary"
-        >
-          Submit Review
-        </Button>
-      </Box>
-      {/* )} */}
+      {reviewAvailable && (
+        <Box style={{ marginRight: "3rem" }}>
+          <Button
+            type="button"
+            onClick={handleOpen}
+            variant="contained"
+            style={{ marginRight: "2rem" }}
+            fullWidth={true}
+            color="primary"
+          >
+            Submit Review
+          </Button>
+        </Box>
+      )}
       <Dialog
         // style={{ marginTop: "20rem" }}
         style={modalStyle}

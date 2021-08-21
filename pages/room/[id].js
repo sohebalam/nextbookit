@@ -74,10 +74,6 @@ const RoomDetails = () => {
     setCheckOutDate(checkOutDate)
 
     if (checkInDate && checkOutDate) {
-      // Calclate days of stay
-
-      //   console.log(checkInDate.toISOString(), checkOutDate.toISOString());
-
       const days = Math.floor(
         (new Date(checkOutDate) - new Date(checkInDate)) / 86400000 + 1
       )
@@ -87,40 +83,39 @@ const RoomDetails = () => {
       dispatch(
         bookingCheck(id, checkInDate.toISOString(), checkOutDate.toISOString())
       )
-      // console.log(checkInDate.toISOString(), checkOutDate.toISOString())
     }
   }
 
-  const newBookingHandler = async () => {
-    const bookingData = {
-      room: id,
-      checkInDate,
-      checkOutDate,
-      daysOfStay,
-      amountPaid: 90,
-      paymentInfo: {
-        id: "STRIPE_PAYMENT_ID",
-        status: "STRIPE_PAYMENT_STATUS",
-      },
-    }
+  // const newBookingHandler = async () => {
+  //   const bookingData = {
+  //     room: id,
+  //     checkInDate,
+  //     checkOutDate,
+  //     daysOfStay,
+  //     amountPaid: 90,
+  //     paymentInfo: {
+  //       id: "STRIPE_PAYMENT_ID",
+  //       status: "STRIPE_PAYMENT_STATUS",
+  //     },
+  //   }
 
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-      const { data } = await axios.post(
-        `/api/bookings/bookings`,
-        bookingData,
-        config
-      )
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     }
+  //     const { data } = await axios.post(
+  //       `/api/bookings/bookings`,
+  //       bookingData,
+  //       config
+  //     )
 
-      // console.log(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //     // console.log(data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   const bookedRoom = async (id, pricePerNight) => {
     setPaymentLoading(true)

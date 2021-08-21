@@ -115,9 +115,7 @@ export const checkReviewAvailability = (roomId) => async (dispatch) => {
   try {
     dispatch({ type: REVIEW_AVAILABLE_REQUEST })
 
-    const { data } = await axios.get(
-      `/api/reviews/checkReviewAuth?roomId=${roomId}`
-    )
+    const { data } = await axios.get(`/api/reviews/reviewAuth?roomId=${roomId}`)
 
     dispatch({
       type: REVIEW_AVAILABLE_SUCCESS,

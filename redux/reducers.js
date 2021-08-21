@@ -40,6 +40,7 @@ const reducer = combineReducers({
   // deleteReviews: deleteReviewsReducer,
   checkReview: checkReviewReducer,
   // review: reviewReducer,
+  checkReview: checkReviewReducer,
 })
 
 export default reducer
