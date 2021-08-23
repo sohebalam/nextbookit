@@ -161,7 +161,6 @@ export const getBookingDetails = catchAsyncErrors(async (req, res) => {
 })
 
 export const allAdminBookings = catchAsyncErrors(async (req, res) => {
-  console.log("Stripe")
   const bookings = await Booking.find()
     .populate({
       path: "room",

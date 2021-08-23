@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import {
   clearErrors,
-  getBookingDetail,
+  getBookingDetails,
 } from "../../redux/actions/bookingActions"
 import { MDBDataTable } from "mdbreact"
 import { wrapper } from "../../redux/store"
@@ -19,11 +19,11 @@ const BookingDetails = () => {
   const dispatch = useDispatch()
 
   const { booking, error } = useSelector((state) => state.bookingDetails)
-  const { user } = useSelector((state) => state.profile)
+  const { dbUser } = useSelector((state) => state.profile)
 
   //   const { error, bookings } = bookings
 
-  // console.log(booking)
+  console.log(booking, "Room", booking.room, "user:", booking.user)
 
   useEffect(() => {
     if (error) {
@@ -73,7 +73,7 @@ const BookingDetails = () => {
               <p className={isPaid ? "greenColor" : "redColor"}>
                 <b>{isPaid ? "Paid" : "Not Paid"}</b>
               </p>
-              {user && user.role === "admin" && (
+              {dbUser && dbUser.role === "admin" && (
                 <>
                   <h4 className="my-4">Stripe Payment ID</h4>
                   <p className="redColor">
@@ -134,7 +134,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
         }
       }
 
-      await store.dispatch(getBookingDetail(req.headers.cookie, req, params.id))
+      await store.dispatch(
+        getBookingDetails(req.headers.cookie, req, params.id)
+      )
     }
 )
 

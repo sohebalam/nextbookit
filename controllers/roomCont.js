@@ -8,6 +8,12 @@ import ErrorHandler from "../utils/errorHandler"
 import catchAsyncErrors from "../middlewares/catchAsyncErrors"
 import APIFeatures from "../utils/apiFeatures"
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
+
 // Create all rooms   =>   /api/rooms
 export const allRooms = catchAsyncErrors(async (req, res) => {
   const resPerPage = 4
@@ -75,11 +81,34 @@ export const getSingleRoom = catchAsyncErrors(async (req, res, next) => {
 
 // Update room details   =>   /api/rooms/:id
 export const updateRoom = catchAsyncErrors(async (req, res, next) => {
-  console.log(req.body)
+  // console.log(req.user)
   let room = await Room.findById(req.query.id)
 
   if (!room) {
     return next(new ErrorHandler("Room not found with this ID", 404))
+  }
+
+  if (req.body.images) {
+    // Delete images associated with the room
+    for (let i = 0; i < room.images.length; i++) {
+      await cloudinary.v2.uploader.destroy(room.images[i].public_id)
+    }
+
+    let imagesLinks = []
+    const images = req.body.images
+
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.v2.uploader.upload(images[i], {
+        folder: "bookit/rooms",
+      })
+
+      imagesLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      })
+    }
+
+    req.body.images = imagesLinks
   }
 
   let newRoom = await Room.findByIdAndUpdate(req.query.id, req.body, {
@@ -99,6 +128,10 @@ export const deleteRoom = catchAsyncErrors(async (req, res, next) => {
 
   if (!room) {
     return next(new ErrorHandler("Room not found with this ID", 404))
+  }
+
+  for (let i = 0; i < room.images.length; i++) {
+    await cloudinary.v2.uploader.destroy(room.images[i].public_id)
   }
 
   await room.remove()

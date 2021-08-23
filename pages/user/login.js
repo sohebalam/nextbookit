@@ -56,7 +56,7 @@ function Login() {
   const dispatch = useDispatch()
   const router = useRouter()
 
-  console.log(session)
+  // console.log(session)
 
   const profile = useSelector((state) => state.profile)
 
@@ -99,7 +99,7 @@ function Login() {
     if (!dbUser) {
       if (user.id) {
         dispatch(socialReg(userData))
-        console.log(userData)
+        // console.log(userData)
       }
     }
   }

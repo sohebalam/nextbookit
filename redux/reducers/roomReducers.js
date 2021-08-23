@@ -173,8 +173,9 @@ export const updateRoomReducer = (state = { room: {} }, action) => {
     case UPDATE_ROOM_SUCCESS:
       return {
         loading: false,
-        isUpdated: action.payload.success,
+        isUpdated: action.payload,
       }
+
     case UPDATE_ROOM_FAIL:
       return { loading: false, error: action.payload }
     case UPDATE_ROOM_RESET:

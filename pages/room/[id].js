@@ -23,7 +23,6 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { useRouter } from "next/dist/client/router"
 import { Alert } from "@material-ui/lab"
-import PersonIcon from "@material-ui/icons/Person"
 import getStripe from "../../utils/getStripe"
 import ListReviews from "../../components/review/ListReviews"
 const RoomDetails = () => {

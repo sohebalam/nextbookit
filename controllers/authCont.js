@@ -1,11 +1,18 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors"
 import User from "../models/userModel"
 // import { Social } from "../socialModel"
+import cloudinary from "cloudinary"
 
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { sendEmail } from "../middlewares/sendMail"
 import validator from "validator"
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 export const registerUser = catchAsyncErrors(async (req, res) => {
   // console.log(req.body)
@@ -149,7 +156,7 @@ export const forgotPassword = async (req, res) => {
     })
 
     user.resetToken = token
-    console.log(user)
+    // console.log(user)
     await user.save()
 
     const link = `${process.env.API}/user/reset/${token}`

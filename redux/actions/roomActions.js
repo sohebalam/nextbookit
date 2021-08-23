@@ -136,7 +136,7 @@ export const adminRooms = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_ROOMS_REQUEST })
 
-    const { data } = await axios.get(`/api/admin/rooms/rooms`)
+    const { data } = await axios.get(`/api/admin/rooms`)
 
     dispatch({
       type: ADMIN_ROOMS_SUCCESS,
@@ -157,7 +157,7 @@ export const roomNew = (roomData) => async (dispatch) => {
   try {
     dispatch({ type: NEW_ROOM_REQUEST })
 
-    const { data } = await axios.post(`/api/rooms`, roomData)
+    const { data } = await axios.post(`/api/rooms/rooms`, roomData)
 
     dispatch({
       type: NEW_ROOM_SUCCESS,
@@ -185,7 +185,7 @@ export const roomUpdate = (id, roomData) => async (dispatch) => {
     }
 
     const { data } = await axios.put(`/api/rooms/${id}`, roomData, config)
-
+    console.log(data)
     dispatch({
       type: UPDATE_ROOM_SUCCESS,
       payload: data.success,

@@ -44,7 +44,7 @@ function Header() {
   const profile = useSelector((state) => state.profile)
   const { loading, error, dbUser } = profile
 
-  // console.log(dbUser)
+  // console.log("headerd", dbUser)
 
   useEffect(() => {
     if (!dbUser) {

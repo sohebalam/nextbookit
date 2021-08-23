@@ -83,7 +83,7 @@ export const updateProfileReducer = (state = {}, action) => {
     case UPDATE_PROFILE_REQUEST:
       return { loading: true }
     case UPDATE_PROFILE_SUCCESS:
-      console.log(action.payload)
+      // console.log(action.payload)
       return { loading: false, isUpdated: action.payload }
 
     case UPDATE_PROFILE_RESET:

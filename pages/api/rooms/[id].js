@@ -8,16 +8,16 @@ import {
 } from "../../../controllers/roomCont"
 
 import onError from "../../../middlewares/error"
-// import { isAuthenticatedUser } from "../../../middlewares/auth"
+import { isAuthenticated, authoriseRoles } from "../../../middlewares/auth"
 
 const handler = nc({ onError })
 
 connectDB()
 
-handler.get(getSingleRoom)
+handler.use(isAuthenticated, authoriseRoles("admin")).get(getSingleRoom)
 
-handler.put(updateRoom)
+handler.use(isAuthenticated, authoriseRoles("admin")).put(updateRoom)
 
-handler.delete(deleteRoom)
+handler.use(isAuthenticated, authoriseRoles("admin")).delete(deleteRoom)
 
 export default handler
