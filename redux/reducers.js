@@ -20,6 +20,7 @@ import {
   deleteRoomReducer,
 } from "./reducers/roomReducers"
 import {
+  allUsersReducer,
   forgotPasswordReducer,
   profileReducer,
   registerReducer,
@@ -53,6 +54,7 @@ const reducer = combineReducers({
   deleteRoom: deleteRoomReducer,
   adminBookings: adminBookingsReducer,
   deleteBooking: deleteBookingReducer,
+  allUsers: allUsersReducer,
 })
 
 export default reducer

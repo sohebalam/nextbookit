@@ -272,3 +272,61 @@ export const socialRegister = catchAsyncErrors(async (req, res) => {
     message: "Account Registered successfully",
   })
 })
+
+export const allAdminUsers = catchAsyncErrors(async (req, res) => {
+  const users = await User.find()
+
+  res.status(200).json({
+    success: true,
+    users,
+  })
+})
+
+export const getUserDetails = catchAsyncErrors(async (req, res) => {
+  const user = await User.findById(req.query.id)
+
+  if (!user) {
+    return next(new ErrorHandler("User not found with this ID", 400))
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
+  })
+})
+
+export const updateUserDetails = catchAsyncErrors(async (req, res) => {
+  const newUserData = {
+    ame: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  }
+
+  const user = await User.findByIdAndUpdate(req.query.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  })
+
+  res.status(200).json({
+    success: true,
+  })
+})
+
+export const deleteUser = catchAsyncErrors(async (req, res) => {
+  const user = await User.findById(req.query.id)
+
+  if (!user) {
+    return next(new ErrorHandler("User not found with this ID", 400))
+  }
+
+  const image_id = user.avatar.public_id
+  await cloudinary.v2.uploader.destroy(image_id)
+
+  await user.remove()
+
+  res.status(200).json({
+    success: true,
+    user,
+  })
+})
