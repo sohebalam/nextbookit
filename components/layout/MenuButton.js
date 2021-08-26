@@ -43,7 +43,7 @@ const MenuButton = ({ dbUser }) => {
         onClose={handleClose}
       >
         {dbUser.role === "admin" && (
-          <>
+          <div>
             <Link href="/badmin/allrooms">
               <MenuItem onClick={handleClose}>Rooms</MenuItem>
             </Link>
@@ -54,7 +54,7 @@ const MenuButton = ({ dbUser }) => {
             <Link href="/badmin/allusers">
               <MenuItem onClick={handleClose}>Users</MenuItem>
             </Link>
-          </>
+          </div>
         )}
 
         <Link href="/user/profile">

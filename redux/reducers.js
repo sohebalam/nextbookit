@@ -18,15 +18,20 @@ import {
   newRoomReducer,
   updateRoomReducer,
   deleteRoomReducer,
+  roomReviewsReducer,
+  deleteReviewsReducer,
 } from "./reducers/roomReducers"
 import {
   allUsersReducer,
+  deleteUserReducer,
   forgotPasswordReducer,
   profileReducer,
   registerReducer,
   regSocialReducer,
   resetPasswordReducer,
   updateProfileReducer,
+  updateUserReducer,
+  userDetailsReducer,
 } from "./reducers/userReducers"
 
 const reducer = combineReducers({
@@ -43,8 +48,8 @@ const reducer = combineReducers({
   bookings: bookingsReducer,
   bookingDetails: bookingDetailsReducer,
   newReview: newReviewReducer,
-  // roomReview: roomReviewsReducer,
-  // deleteReviews: deleteReviewsReducer,
+  roomReview: roomReviewsReducer,
+  deleteReviews: deleteReviewsReducer,
   checkReview: checkReviewReducer,
   // review: reviewReducer,
   checkReview: checkReviewReducer,
@@ -55,6 +60,9 @@ const reducer = combineReducers({
   adminBookings: adminBookingsReducer,
   deleteBooking: deleteBookingReducer,
   allUsers: allUsersReducer,
+  userDetails: userDetailsReducer,
+  updateUser: updateUserReducer,
+  deleteUser: deleteUserReducer,
 })
 
 export default reducer

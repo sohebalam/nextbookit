@@ -111,6 +111,7 @@ export const getRoomReviews = catchAsyncErrors(async (req, res) => {
 })
 
 export const deleteReview = catchAsyncErrors(async (req, res) => {
+  console.log(req.query.roomId)
   const room = await Room.findById(req.query.roomId)
 
   const reviews = room.reviews.filter(

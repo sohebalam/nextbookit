@@ -244,7 +244,7 @@ export const getRoomReviews = (id) => async (dispatch) => {
   }
 }
 
-export const reviewDelete = (id, roomId) => async (dispatch) => {
+export const deleteReview = (id, roomId) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_REVIEW_REQUEST })
 
@@ -252,9 +252,11 @@ export const reviewDelete = (id, roomId) => async (dispatch) => {
       `/api/reviews/reviews/?id=${id}&roomId=${roomId}`
     )
 
+    console.log(data)
+
     dispatch({
       type: DELETE_REVIEW_SUCCESS,
-      payload: data.success,
+      payload: data,
     })
   } catch (error) {
     dispatch({

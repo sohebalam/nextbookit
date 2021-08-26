@@ -297,7 +297,7 @@ export const getUserDetails = catchAsyncErrors(async (req, res) => {
 
 export const updateUserDetails = catchAsyncErrors(async (req, res) => {
   const newUserData = {
-    ame: req.body.name,
+    name: req.body.name,
     email: req.body.email,
     role: req.body.role,
   }
@@ -314,16 +314,19 @@ export const updateUserDetails = catchAsyncErrors(async (req, res) => {
 })
 
 export const deleteUser = catchAsyncErrors(async (req, res) => {
-  const user = await User.findById(req.query.id)
+  // console.log(req.method, req.query.id)
+  const user = await User.findByIdAndDelete(req.query.id)
+
+  console.log(user)
 
   if (!user) {
     return next(new ErrorHandler("User not found with this ID", 400))
   }
 
-  const image_id = user.avatar.public_id
-  await cloudinary.v2.uploader.destroy(image_id)
-
-  await user.remove()
+  // if (user.avatar.public_id) {
+  //   const image_id = user.avatar.public_id
+  //   await cloudinary.v2.uploader.destroy(image_id)
+  // }
 
   res.status(200).json({
     success: true,

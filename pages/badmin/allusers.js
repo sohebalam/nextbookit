@@ -22,8 +22,8 @@ const AllUsers = () => {
   const allUsers = useSelector((state) => state.allUsers)
   const { loading, error, users } = allUsers
 
-  //   const deleteUser = useSelector((state) => state.deleteUser)
-  //   const { error: deleteError, isDeleted } = deleteUser
+  const deleteUser = useSelector((state) => state.deleteUser)
+  const { error: deleteError, isDeleted } = deleteUser
 
   useEffect(() => {
     dispatch(getAllUsers())
@@ -31,15 +31,15 @@ const AllUsers = () => {
       toast.error(error)
       dispatch(clearErrors())
     }
-    // if (deleteError) {
-    //   toast.error(deleteError)
-    //   dispatch(clearErrors())
-    // }
-    // if (isDeleted) {
-    //   router.push("/admin/users/users")
-    //   dispatch({ type: DELETE_USER_RESET })
-    // }
-  }, [dispatch, error])
+    if (deleteError) {
+      toast.error(deleteError)
+      dispatch(clearErrors())
+    }
+    if (isDeleted) {
+      router.push("/admin/allusers")
+      dispatch({ type: DELETE_USER_RESET })
+    }
+  }, [dispatch, error, deleteUser])
 
   const setUsers = () => {
     const data = {
@@ -82,7 +82,7 @@ const AllUsers = () => {
           role: user.role,
           actions: (
             <>
-              <Link href={`/admin/users/${user._id}`}>
+              <Link href={`/badmin/users/${user._id}`}>
                 <a className="btn btn-primary">
                   <i className="fa fa-pencil"></i>
                 </a>
